@@ -1,4 +1,6 @@
 const jwt = require('jsonwebtoken');
+
+/** Verifys wether a user is authenticated or not, and sends status 401 if not. */
  
 module.exports.checkAuth = (req, res, next) => {
    try {

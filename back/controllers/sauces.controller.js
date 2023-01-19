@@ -1,5 +1,9 @@
 const SauceModel = require('../models/sauces.model');
 
+/**
+ * Gets all sauces from db in an array
+ */
+
 module.exports.getAllSauces = async (req,res) => {
     try{
         
@@ -12,6 +16,8 @@ module.exports.getAllSauces = async (req,res) => {
     }
 }
 
+/** Get one sauce from db with id requested in params */
+
 module.exports.getOneSauce = async (req,res) => {
     try{
         const id = req.params.id;
@@ -21,6 +27,8 @@ module.exports.getOneSauce = async (req,res) => {
         res.status(401).json({ error });
     }
 }
+
+/** Posts one sauce in the db with a string object for sauce informations and multer for imageUrl */
 
 module.exports.createSauce = async (req,res) => {
     try{
@@ -40,14 +48,21 @@ module.exports.createSauce = async (req,res) => {
     }
 }
 
+/** Deletes one sauce from the db according to the id given in params */
+
 module.exports.deleteSauce = async (req,res) => {
     try{
         await SauceModel.findByIdAndDelete(req.params.id);
         res.status(200).json({message : "Deletion ok"});
     }catch(error){
-        res.status(400).json({ error })
+        res.status(400).json({ error });
     }
 }
+
+/** Likes, dislikes or unlikes a given sauce using -1, 0 or 1 in body to
+ *  know which kind it is, and userId from auth middleware to know who's 
+ *  interacting with the sauce.
+ */
 
 module.exports.likeSauce = async (req,res) => {
     try{
@@ -93,7 +108,7 @@ module.exports.likeSauce = async (req,res) => {
             }else {
                 return res.status(200).json({ message : 'already unliked' });
             }
-            await sauce.save()
+            await sauce.save();
             res.status(200).json({ message : 'sauce unliked' });
         }else if (like === -1){
             if(!sauce.usersDisliked.includes(userId)){
@@ -115,9 +130,13 @@ module.exports.likeSauce = async (req,res) => {
     }
 }
 
+/** Modifies a given sauce (with params) in a given way, either
+ *  with multer and an object, or with the body of the request. 
+ */
+
 module.exports.updateSauce = async (req,res) => {
     try{
-        const id = req.params.id
+        const id = req.params.id;
         
         if(req.body.sauce){
             const sauceObject = JSON.parse(req.body.sauce);
@@ -138,9 +157,9 @@ module.exports.updateSauce = async (req,res) => {
                     name,manufacturer,description,mainPepper,heat
                 }
             })
-            res.status(201).json({ message : 'mise à jour de la sauce effectuée' })
+            res.status(201).json({ message : 'mise à jour de la sauce effectuée' });
         }else{
-            res.status(400).json({ error : 'invalid request' })
+            res.status(400).json({ error : 'invalid request' });
         }
     }catch(error){
         res.status(400).json({ error });

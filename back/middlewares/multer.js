@@ -6,6 +6,8 @@ const MIME_TYPES = {
   'image/png' : 'png'
 }
 
+/** Multer function to add an image to the project, in a file, and handle what's left of the request. */
+
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     cb(null, 'images');

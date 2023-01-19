@@ -4,6 +4,8 @@ const jwt = require('jsonwebtoken');
 
 const jwtSecret = process.env.JWT_SECRET;
 
+/** Posts a user to the db, with a hashed password. */
+
 module.exports.postUser = async (req, res) => {
     const {email, password } = req.body;
 
@@ -21,7 +23,7 @@ module.exports.postUser = async (req, res) => {
     }
 }
 
-
+/** Logs a user to the db, assigning a token to be recognized by the app. */
 
 module.exports.loginUser = async (req,res) => {
 

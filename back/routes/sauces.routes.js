@@ -1,7 +1,7 @@
 const router = require('express').Router();
 const sauceController = require('../controllers/sauces.controller');
 const { checkAuth } = require('../middlewares/auth');
-const multer = require('../multer');
+const multer = require('../middlewares/multer');
 
 router.get('/', checkAuth, sauceController.getAllSauces);
 router.get('/:id', checkAuth, sauceController.getOneSauce);
